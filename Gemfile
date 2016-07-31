@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+#gem 'less-rails' # Railsでlessを使えるようにする。Bootstrapがlessで書かれているため
+#gem 'twitter-bootstrap-rails' # Bootstrapの本体
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
