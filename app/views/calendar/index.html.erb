@@ -32,20 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <% count = 0 %>
-          <% @calendar[:data].each do |date| %>
-            <% if date.wday == 0 %><tr><% end %>
-            <td  id="td<%= count %>">
-              <%= date.month %>/<%= date.day %>
-              <% count = count + 1 %>
-            </td>
-            <% if date.wday == 6 %></tr><% end %>
-          <% end %>
-          <% if count < 42 %>
-            <% for num in 1..7 do %>
-              <td><font color="white">0</font></td>
-            <% end %>
-          <% end %>
+          <%= @calendarDate.html_safe %>
         </tbody>
       </table>
     </div>
@@ -59,20 +46,5 @@
     <div class="container-fluid" style="background-color:yellow;">
       <div class="text-center"><h3><%= @year %>/<%= @month %></h3></div>
     </div>
-    <script language="javascript">
-      function getCELL() {
-       var myTbl = document.getElementById('dateTable');
-      　for (var i=0; i<myTbl.rows.length; i++) {
-         for (var j=0; j<myTbl.rows[i].cells.length; j++) {
-          var Cells=myTbl.rows[i].cells[j];
-      　       // onclickで 'Mclk'を実行。thisはクリックしたセル"td"のオブジェクトを返す。
-      　　 Cells.onclick =function(){Mclk(this);}
-      　  }
-      　 }
-      function Mclk(Cell) { 
-         var cellVal = 'セルの内容：'+Cell.innerHTML;
-         alert(cellVal);
-      }
-    </script>
   </body>
 </html>

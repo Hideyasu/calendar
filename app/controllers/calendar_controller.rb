@@ -2,6 +2,9 @@ require "date"
 
 class CalendarController < ApplicationController
   def index
+
+      @titles = CalendarDates.all
+
   	  @calendar = Hash.new
   	  @calendar[:info_man] = '男だけ予定がある場合は<font color="blue"><strong>青色</strong></font>'
       @calendar[:info_woman] = '女だけ予定がある場合は<font color="red"><strong>赤色</strong></font>'
@@ -15,19 +18,19 @@ class CalendarController < ApplicationController
       @prevMonth
       @nextMonth
 
-      today = Date.today
-      if today.year == params[:year] && today.month == params[:month] || params[:year].blank?
-        @year = today.year
-        @month = today.month
-        prevDate = Date.new(today.year, today.month-1, 1)
-        nextDate = Date.new(today.year, today.month+1, 1)
+      selectDate = Date.today
+      if selectDate.year == params[:year] && selectDate.month == params[:month] || params[:year].blank?
+        @year = selectDate.year
+        @month = selectDate.month
+        prevDate = Date.new(selectDate.year, selectDate.month-1, 1)
+        nextDate = Date.new(selectDate.year, selectDate.month+1, 1)
         @prevYear = prevDate.year
         @nextYear = nextDate.year
         @prevMonth = prevDate.month
         @nextMonth = nextDate.month
 
-        from_date = Date.new(today.year, today.month, 1).beginning_of_week(:sunday)
-        to_date = Date.new(today.year, today.month, -1).end_of_week(:sunday)
+        from_date = Date.new(selectDate.year, selectDate.month, 1).beginning_of_week(:sunday)
+        to_date = Date.new(selectDate.year, selectDate.month, -1).end_of_week(:sunday)
         @calendar[:data] = from_date.upto(to_date)
       else
         @year = params[:year]
@@ -53,6 +56,32 @@ class CalendarController < ApplicationController
         from_date = Date.new(selectDate.year, selectDate.month, 1).beginning_of_week(:sunday)
         to_date = Date.new(selectDate.year, selectDate.month, -1).end_of_week(:sunday)
         @calendar[:data] = from_date.upto(to_date)
+      end
+
+      count = 0
+      @calendarDate = ""
+      @calendar[:data].each do |date|
+        if date.wday == 0
+          @calendarDate += "<tr>"
+        end
+
+        @calendarDate += "<td id=" + count.to_s + ">"
+        if selectDate.year == date.year && selectDate.month == date.month
+           @calendarDate += '<a href="/calendar/index/' + date.year.to_s + '/' + date.month.to_s + '/' + date.day.to_s + '/white"><h4>' + date.month.to_s + '/' + date.day.to_s + '</h4></a>'
+        else
+          @calendarDate += ""
+        end
+       
+        count = count + 1
+        @calendarDate += "</td>"
+        if date.wday == 6
+          @calendarDate += "<tr>"
+        end
+      end
+      if count < 42
+        for num in 1..7 do
+          @calendarDate += '<td><font color="white">0</font></td>'
+        end
       end
   end
 
