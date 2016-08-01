@@ -33,18 +33,20 @@ class CalendarController < ApplicationController
         @year = params[:year]
         @month = params[:month]
         selectDate = Date.new(@year.to_i, @month.to_i, 1)
+        
         if selectDate.month == 1
           prevDate = Date.new(selectDate.year-1, 12, 1)
         else
           prevDate = Date.new(selectDate.year, selectDate.month-1, 1)
         end
+
         if selectDate.month == 12
           nextDate = Date.new(selectDate.year+1, 1, 1)  
         else
           nextDate = Date.new(selectDate.year, selectDate.month+1, 1)
         end
         @prevYear = prevDate.year
-        @nextYear = prevDate.year
+        @nextYear = nextDate.year
         @prevMonth = prevDate.month
         @nextMonth = nextDate.month
 
